@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Upcoming Volunteer Events</h2>
+
+    <form class="filter-form">
+        <label for="category">Filter By Category</label>
+        <select name="category" id="category">
+            <option value="">All</option>
+            <option value="Enviroment">Enviroment</option>
+            <option value="Youth">Youth</option>
+            <option value="Animals">Animals</option>
+            <option value="Community">Community</option>
+        </select>
+    </form>
+
+    <section class="event-list">
+        {% if events %}
+            {% for event in events %}
+                <article class="event-card">
+                    <h3>{{events.title}}</h3>
+                    <p class="event-org">{{event.organization}} · {{event.category}}</p>
+                    <p class="event-meta">
+                        {{event.date.strftime("%B")}}
+                    </p>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>No events available at the moment. Please check back later!</p>
+        {% endif %}
+    </section>
+{% endblock %}
+
+

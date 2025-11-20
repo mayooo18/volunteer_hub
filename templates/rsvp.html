@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% "block content" %}
+
+    <h2>RSVP for {{ event.title }}</h2>
+
+    <p>
+        {{ event.organization }} <br>
+        Category: {{ event.category }} <br>
+        When: {{ event.date.strftime("%B %d, %Y %I:%M %p") }} <br>
+        Where: {{ event.location }}
+    </p>
+
+    <p>
+        {{ event.description }}
+    </p>
+
+    <form method="post">
+        <label>
+            Your Name
+            <input type="text" name="name" required placeholder="John Doe">
+        </label>
+
+        <label>
+            Email
+            <input type="email" name="email" required placeholder="you@example.com">
+        </label>
+
+        <button type="submit"> Submit RSVP </button>
+    </form>
+{% endblock %}

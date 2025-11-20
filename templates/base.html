@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <h1 class="logo">
+                <a href="{{ url_for('home') }}">Volunteer Hub</a>
+            </h1>
+            <nav class="nav-links">
+                <a href="{{ url_for('home')  }}"> Events</a>
+                <a href="{{ url_for('add_event') }}">Add Event</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Volunteer Hub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
