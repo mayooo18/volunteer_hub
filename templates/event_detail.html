@@ -1,23 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="successMessage" 
-     style="display:none; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            background-color: #A1D6A0; 
-            color: #1F3C1F; 
-            border: 1px solid #5F8A5F; 
-            border-radius: 8px;">
-    Your RSVP has been received! Thank you for signing up.
+<div id="successMessage" class="success-message" style="display:none;">
+    ✓ Your RSVP has been received! Thank you for signing up.
 </div>
+
 <script>
     // Look for ?success=1 in the URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("success") === "1") {
         const msg = document.getElementById("successMessage");
         msg.style.display = "block";
-
     }
 </script>
 
@@ -27,20 +20,20 @@
 <h1>{{ event.title }}</h1>
 
 <p>
-    {{ event.organization }} · {{ event.category }}
+    <strong>{{ event.organization }}</strong> · <span class="category-badge">{{ event.category }}</span>
 </p>
 
 <p>
-    {{ event.date.strftime("%B %d, %Y") }} · {{ event.location }}
+    📅 {{ event.date.strftime("%B %d, %Y") }} · 📍 {{ event.location }}
 </p>
 
-<hr style="border: 1px solid #D9CBB7; margin: 20px 0;">
+<hr>
 
 <p>
     {{ event.description }}
 </p>
 
-<hr style="border: 1px solid #D9CBB7; margin: 20px 0;">
+<hr>
 
 <h2>RSVP for this event</h2>
 
@@ -60,7 +53,7 @@
 
 {% if event.rsvps %}
 <div class="form-card" style="margin-top: 20px;">
-    <h3>People who have RSVP'd</h3>
+    <h3>People who have RSVP'd ({{ event.rsvps|length }})</h3>
     <ul>
         {% for r in event.rsvps %}
             <li>{{ r.name }} ({{ r.email }}){% if r.phone %} - {{ r.phone }}{% endif %}</li>
@@ -68,7 +61,5 @@
     </ul>
 </div>
 {% endif %}
-
-
 
 {% endblock %}
