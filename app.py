@@ -3,18 +3,17 @@ from flask_mail import Mail, Message
 from config import Config
 from models import db, Event, RSVP
 from datetime import datetime
-
 import os
-
 
 app = Flask(__name__)
 
-#secet key for session management
+# secret key for session management
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev")
-#database configuration by render
-database_url     = os.environ.get("DATABASE_URL")
 
-#fallback
+# database configuration by render
+database_url = os.environ.get("DATABASE_URL")
+
+# fallback
 if not database_url:
     database_url = "sqlite:///volunteer.db"
 
@@ -24,6 +23,7 @@ if database_url.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# mail config
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
@@ -35,6 +35,8 @@ mail = Mail(app)
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
@@ -45,7 +47,8 @@ def home():
         events = Event.query.filter_by(category=category).order_by(Event.date).all()
     else:
         events = Event.query.order_by(Event.date).all()
-    return render_template('index.html', events= events, selected_category=category)
+    return render_template('index.html', events=events, selected_category=category)
+
 
 @app.route('/add-event', methods=['GET', 'POST'])
 def add_event():
@@ -60,13 +63,12 @@ def add_event():
         event_datetime = datetime.fromisoformat(date_str)
         event_date = event_datetime.date()
 
-        
         new_event = Event(
             title=title,
             organization=organization,
             category=category,
             location=location,
-            date= event_date,
+            date=event_date,
             description=description
         )
         db.session.add(new_event)
@@ -75,12 +77,11 @@ def add_event():
 
     return render_template('add_event.html')
 
+
 @app.route('/event/<int:event_id>')
 def event_detail(event_id):
     event = Event.query.get_or_404(event_id)
-
     success = request.args.get('success')
-
     return render_template('event_detail.html', event=event, success=success)
 
 
@@ -106,7 +107,11 @@ def rsvp_event(event_id):
     db.session.commit()
 
     subject = f"RSVP Confirmation for {event.title}"
-    msg = Message(subject=subject, recipients=[email],sender=app.config.get("MAIL_DEFAULT_SENDER"))
+    msg = Message(
+        subject=subject,
+        recipients=[email],
+        sender=app.config.get("MAIL_DEFAULT_SENDER")
+    )
 
     msg.body = f"""Hi {name},
 
@@ -126,8 +131,4 @@ Volunteer Hub
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()    
     app.run(debug=True)
-
-
