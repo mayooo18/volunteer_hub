@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
-from flask_mail import Mail, Message
-from config import Config
+from flask import Flask, render_template, request, redirect, url_for, abort, Request
 from models import db, Event, RSVP
 from datetime import datetime
+import requests
 import os
 
 app = Flask(__name__)
@@ -23,15 +22,17 @@ if database_url.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# mail config
-app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME", "mendezmario2018@gmail.com")
-app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
-app.config["MAIL_DEFAULT_SENDER"] = os.getenv("MAIL_DEFAULT_SENDER", app.config["MAIL_USERNAME"])
+# Resend email config
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_FROM_EMAIL = os.getenv(
+    "RESEND_FROM_EMAIL",
+    "Volunteer Hub <noreply@volunteerhub.us>"
+)
+GMAIL_REPLY_TO = os.getenv(
+    "GMAIL_REPLY_TO",
+    "mendezmario2018@gmail.com"
+)
 
-mail = Mail(app)
 
 db.init_app(app)
 
@@ -107,13 +108,7 @@ def rsvp_event(event_id):
     db.session.commit()
 
     subject = f"RSVP Confirmation for {event.title}"
-    msg = Message(
-        subject=subject,
-        recipients=[email],
-        sender=app.config.get("MAIL_DEFAULT_SENDER")
-    )
-
-    msg.body = f"""Hi {name},
+    body = f"""Hi {name},
 
 Thank you for signing up to volunteer at "{event.title}".
 
@@ -125,7 +120,29 @@ We appreciate your support!
 Volunteer Hub
 """
 
-    mail.send(msg)
+    # Send email via Resend HTTP API
+    if RESEND_API_KEY:
+        try:
+            resp = requests.post(
+                "https://api.resend.com/emails",
+                headers={
+                    "Authorization": f"Bearer {RESEND_API_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "from": RESEND_FROM_EMAIL,
+                    "to": [email],
+                    "subject": subject,
+                    "text": body,
+                    "reply_to": [GMAIL_REPLY_TO],  # replies go to your Gmail
+                },
+                timeout=10,
+            )
+            app.logger.info(f"Resend status: {resp.status_code} {resp.text}")
+        except Exception as e:
+            app.logger.error(f"Error sending email via Resend: {e}")
+    else:
+        app.logger.warning("RESEND_API_KEY not set; skipping email send.")
 
     return redirect(url_for('event_detail', event_id=event.id, success=1))
 
