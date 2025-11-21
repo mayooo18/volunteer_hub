@@ -32,7 +32,7 @@ p {
     line-height: 1.7;
 }
 
-/* Header Styles */
+
 .site-header {
     background: linear-gradient(135deg, #A67849 0%, #8F6138 100%);
     padding: 15px 20px;
@@ -80,7 +80,6 @@ p {
     transform: translateY(-2px);
 }
 
-/* Button Styles */
 button,
 .btn {
     background-color: #A67849;
@@ -107,7 +106,6 @@ button:active,
     transform: translateY(0);
 }
 
-/* Form Styles */
 .form-card {
     background-color: #FFFFFF;
     padding: 30px;
@@ -172,7 +170,6 @@ select {
     padding-right: 36px;
 }
 
-/* Filter Form */
 .filter-form {
     margin: 20px 0;
     padding: 20px;
@@ -239,7 +236,6 @@ select {
     margin-top: 8px;
 }
 
-/* Category Badge */
 .category-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -264,7 +260,6 @@ select {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Empty State */
 .empty-message {
     background-color: #FFFFFF;
     padding: 30px;
