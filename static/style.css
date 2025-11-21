@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F7F3EA;
+    color: #3E2F1C;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #A67849;
+    padding: 15px 20px;
+    color: white;
+}
+
+header .brand {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+button,
+.btn {
+    background-color: #A67849;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover,
+.btn:hover {
+    background-color: #8F6138;
+}
+
+.form-card {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #D9CBB7;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.form-card h2 {
+    margin-top: 0;
+    color: #3E2F1C;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #3E2F1C;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D9CBB7;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-size: 14px;
+    background-color: #FDFBF7;
+    color: #3E2F1C;
+}
+
+textarea {
+    min-height: 80px;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.event-card {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border: 1px solid #D9CBB7;
+    border-radius: 10px;
+}
+
+.event-card h3 {
+    margin: 0 0 5px 0;
+    color: #A67849;
+}
+
+.event-card small {
+    color: #6D5A43;
+}
+
+.event-card p {
+    margin-top: 8px;
+    color: #3E2F1C;
+}
+
+.empty-message {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #D9CBB7;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #3E2F1C;
+}
+
+@media (max-width: 700px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 45px;   /* adjust size */
+    width: auto;
+}
+.site-header {
+    background-color: #A67849;
+    padding: 15px 20px;
+    color: white;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
