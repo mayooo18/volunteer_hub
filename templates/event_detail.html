@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="successMessage" 
+     style="display:none; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            background-color: #A1D6A0; 
+            color: #1F3C1F; 
+            border: 1px solid #5F8A5F; 
+            border-radius: 8px;">
+    Your RSVP has been received! Thank you for signing up.
+</div>
+<script>
+    // Look for ?success=1 in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("success") === "1") {
+        const msg = document.getElementById("successMessage");
+        msg.style.display = "block";
+
+    }
+</script>
+
+
+<p><a href="{{ url_for('home') }}">← Back to events</a></p>
+
+<h1>{{ event.title }}</h1>
+
+<p>
+    {{ event.organization }} · {{ event.category }}
+</p>
+
+<p>
+    {{ event.date.strftime("%B %d, %Y") }} · {{ event.location }}
+</p>
+
+<hr style="border: 1px solid #D9CBB7; margin: 20px 0;">
+
+<p>
+    {{ event.description }}
+</p>
+
+<hr style="border: 1px solid #D9CBB7; margin: 20px 0;">
+
+<h2>RSVP for this event</h2>
+
+<form method="POST" action="{{ url_for('rsvp_event', event_id=event.id) }}" class="form-card">
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Email</label>
+    <input type="text" name="email" required>
+
+    <label>Phone (optional)</label>
+    <input type="text" name="phone">
+
+    <br><br>
+    <button type="submit">Submit RSVP</button>
+</form>
+
+{% if event.rsvps %}
+<div class="form-card" style="margin-top: 20px;">
+    <h3>People who have RSVP'd</h3>
+    <ul>
+        {% for r in event.rsvps %}
+            <li>{{ r.name }} ({{ r.email }}){% if r.phone %} - {{ r.phone }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

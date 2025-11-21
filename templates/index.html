@@ -12,22 +12,27 @@
 
     <h2>Upcoming Volunteer Events</h2>
 
-    <form class="filter-form">
+    <form class="filter-form" method="get" action="{{ url_for('home') }}">
         <label for="category">Filter By Category</label>
-        <select name="category" id="category">
+        <select name="category" id="category" onchange="this.form.submit()">
             <option value="">All</option>
-            <option value="Environment">Environment</option>
-            <option value="Youth">Youth</option>
-            <option value="Animals">Animals</option>
-            <option value="Community">Community</option>
+            <option value="Environment" {% if selected_category=='Environment' %}selected{% endif %}>Environment</option>
+            <option value="Youth" {% if selected_category=='Youth' %}selected{% endif %}>Youth</option>
+            <option value="Animals" {% if selected_category=='Animals' %}selected{% endif %}>Animals</option>
+            <option value="Community" {% if selected_category=='Community' %}selected{% endif %}>Community</option>
         </select>
     </form>
+    
 
     <section class="event-list">
         {% if events %}
             {% for event in events %}
                 <article class="event-card">
-                    <h3>{{event.title}}</h3>
+                    <h3>
+                        <a href="{{ url_for('event_detail', event_id=event.id) }}">
+                            {{ event.title }}
+                        </a>
+                    </h3>                    
                     <p class="event-org">{{event.organization}} · {{event.category}}</p>
                     <p class="event-meta">
                         {{event.date.strftime("%B %d, %Y")}} · {{event.location}}
