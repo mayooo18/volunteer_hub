@@ -12,7 +12,7 @@ app = Flask(__name__)
 #secet key for session management
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev")
 #database configuration by render
-database_url = os.environ.get("DATABASE_URL")
+database_url     = os.environ.get("DATABASE_URL")
 
 #fallback
 if not database_url:
