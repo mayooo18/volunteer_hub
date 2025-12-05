@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% "block content" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        .testimonial, .impact-story {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .counter {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .newsletter {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <!-- Testimonial Rotator -->
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active testimonial">
+                    <p>"Volunteering here has changed my life!"</p>
+                    <h5>- John Doe</h5>
+                </div>
+                <div class="carousel-item testimonial">
+                    <p>"An amazing experience with wonderful people."</p>
+                    <h5>- Jane Smith</h5>
+                </div>
+                <div class="carousel-item testimonial">
+                    <p>"I love being part of this community."</p>
+                    <h5>- Alex Brown</h5>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <!-- Animated Statistics Counters -->
+        <div class="row text-center my-5">
+            <div class="col-md-4">
+                <div class="counter" data-target="500">0</div>
+                <p>Volunteers</p>
+            </div>
+            <div class="col-md-4">
+                <div class="counter" data-target="1200">0</div>
+                <p>Hours Served</p>
+            </div>
+            <div class="col-md-4">
+                <div class="counter" data-target="300">0</div>
+                <p>Projects Completed</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="my-5">
+            <h3>Recent Activity</h3>
+            <ul class="list-group">
+                <li class="list-group-item">John Doe joined the "Clean the Park" project.</li>
+                <li class="list-group-item">Jane Smith completed 10 volunteer hours this week.</li>
+                <li class="list-group-item">Alex Brown donated supplies for the food drive.</li>
+            </ul>
+        </div>
+
+        <!-- Impact Stories Carousel -->
+        <div id="impactStoriesCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active impact-story">
+                    <h4>Helping Hands</h4>
+                    <p>Our volunteers helped distribute food to over 200 families last month.</p>
+                </div>
+                <div class="carousel-item impact-story">
+                    <h4>Community Cleanup</h4>
+                    <p>We organized a park cleanup that brought together 50 volunteers.</p>
+                </div>
+                <div class="carousel-item impact-story">
+                    <h4>Education for All</h4>
+                    <p>Thanks to our efforts, 30 children received school supplies.</p>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#impactStoriesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#impactStoriesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="newsletter my-5">
+            <h3>Stay Updated</h3>
+            <p>Sign up for our newsletter to receive the latest updates.</p>
+            <form>
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / 200;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
